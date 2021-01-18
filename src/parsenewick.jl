@@ -48,7 +48,7 @@ end
 function match_internal(str::AbstractString,
                         tree::Tree,
                         parent::TreeNode,
-                       parents::Vector{TreeNode})
+                        parents::Vector{TreeNode})
 
     internal = match(r"\((?:(.*,.*)|(?R))*\)([\w\._/]*):?[\w\._/]*", str)
     if internal.captures[2] == ""
@@ -77,6 +77,7 @@ function split_branch(str::AbstractString)
     branch_splits = Vector{Int64}()
     i = 0
     index = 0
+
     for s in str
         index+=1
         if s=='('

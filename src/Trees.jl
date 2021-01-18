@@ -3,11 +3,9 @@ abstract type TreeNode end
 struct Root<:TreeNode
     id::String
 end
-
 struct InnerNode<:TreeNode
     id::String
 end
-
 struct Leave<:TreeNode
     id::String
 end
@@ -17,19 +15,19 @@ hasid(nd::TreeNode, id::AbstractString) = nd.id==id
 mutable struct Tree
     root::Root
     innernodes::Vector{Tuple{InnerNode, TreeNode}} # node, parent
-    leaves::Vector{Tuple{Leave, InnerNode}}
+    leaves::Vector{Tuple{Leave, TreeNode}}
     leavemap::Dict{TreeNode, Vector{Leave}}
 end
 
-function parent(tree::Tree, node::Leave)
-    for n in tree.leaves
+function parent(tree::Tree, node::InnerNode)
+    for n in tree.innernodes
         if n[1].id == node.id
             return n[2]
         end
     end
 end
-function parent(tree::Tree, node::InnerNode)
-    for n in tree.innernodes
+function parent(tree::Tree, node::Leave)
+    for n in tree.leaves
         if n[1].id == node.id
             return n[2]
         end
