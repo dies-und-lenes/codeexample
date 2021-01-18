@@ -89,6 +89,10 @@ function split_branch(str::AbstractString)
         end
     end
 
+    if i != 0
+        error("there are unbalanced parentheses!\n"*str)
+    end
+
     branches = Vector{AbstractString}()
     if isempty(branch_splits)
         push!(branches, str)
