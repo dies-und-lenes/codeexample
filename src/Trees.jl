@@ -49,6 +49,14 @@ function compute_leaves(tree::Tree, a::TreeNode, parents::Vector{TreeNode})
     end    
 end
 
+"""
+    lca(tree, a, b)
+
+Compute the least common ancestor of two leaves.
+
+# Example:
+* lca(tree, tree.leaves[2][1], tree.leaves[1][1])
+"""
 function lca(tree::Tree, a::T,  b::T) where T<:Leave
     # colour all nodes of the tree black
     leaves = zip(map(x->x[1], tree.leaves), trues(length(tree.leaves)))
