@@ -45,7 +45,7 @@ Perform two alternative rules: either a subtree is a leaf or an internal node su
 function match_subtree(str::AbstractString,
                        tree::Tree,
                        parent::TreeNode,
-                       parents::Vector{TreeNode})
+                       preds::Vector{TreeNode})
     if str == "" # TODO is this necessary
         return tree
     else
@@ -53,9 +53,9 @@ function match_subtree(str::AbstractString,
         leaf = match(r"([\w\._/]+):?[\w\._/]*", str)
         if !isnothing(internal)
             ##todo rootcase
-            result = match_internal(internal.match, tree, parent, parents)
+            result = match_internal(internal.match, tree, parent, preds)
         elseif !isnothing(leaf)
-            result = match_leaf(leaf.captures[1], tree, parent, parents)
+            result = add_leaf(leaf.captures[1], tree, parent, preds)
         elseif isnothing(internal) && isnothing(leaf)
             error("couldnt match subtree in " * string(str))
         end
@@ -75,7 +75,7 @@ Matches an internal node, represented by a string surrounded by parentheses and 
 function match_internal(str::AbstractString,
                         tree::Tree,
                         parent::TreeNode,
-                        parents::Vector{TreeNode})
+                        preds::Vector{TreeNode})
 
     internal = match(r"\((?:(.*,.*)|(?R))*\)([\w\._/]*):?[\w\._/]*", str)
     if internal.captures[2] == ""
@@ -164,10 +164,10 @@ Create a new entry in the leaf list of the tree and add the leaf to the leaflist
 function add_leaf(str::AbstractString,
                     tree::Tree,
                     parent::TreeNode,
-                    parents::Vector{TreeNode})
-    
-    push!(tree.leaves, (Leave(str), parent))
-    add_parents(tree, Leave(str) , parents)
+                    preds::Vector{TreeNode})
+    leaf = Leave(str)
+    push!(tree.leaves, (leaf, parent))
+    add_preds(tree, leaf, preds)
 end
 
 """
