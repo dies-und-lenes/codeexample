@@ -25,8 +25,8 @@ mutable struct Tree
     leavemap::Dict{TreeNode, Vector{Leave}}
 end
 
-parent(tree::Tree, node::InnerNode) = tree.innernodes[findfirst(x->x[1].id==node.id)][2]
-parent(tree::Tree, node::Leave) = tree.leaves[findfirst(x->x[1].id==node.id)][2]
+parent(tree::Tree, node::InnerNode) = tree.innernodes[findfirst(x->x[1].id==node.id, tree.innernodes)][2]
+parent(tree::Tree, node::Leave) = tree.leaves[findfirst(x->x[1].id==node.id, tree.leaves)][2]
 
 get_leaves(tree::Tree, a::TreeNode) = get(tree.leavemap, a, nothing)
 
