@@ -10,8 +10,14 @@ struct Leave<:TreeNode
     id::String
 end
 
+"Returns true if the string is the same as the id of the node"
 hasid(nd::TreeNode, id::AbstractString) = nd.id==id
 
+"""
+    Tree(root, innernodes, leaves, leavemap)
+
+Tree structure modeling rooted trees. Consists of a root, a list of edges connecting inner nodes and a list of edges connecting the leaves of the tree with inner nodes. The leavemap maps an inner node to the set of leaves that are successors of the node.
+"""
 mutable struct Tree
     root::Root
     innernodes::Vector{Tuple{InnerNode, TreeNode}} # node, parent
