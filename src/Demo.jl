@@ -1,7 +1,6 @@
-import Revise.includet
-includet("Trees.jl")
-includet("prettify.jl")
-includet("parsenewick.jl")
+include("Trees.jl")
+include("prettify.jl")
+include("parsenewick.jl")
 
 
 
